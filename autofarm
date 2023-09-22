@@ -9,12 +9,6 @@ cube.Transparency = 0.5 -- Adjust the transparency as needed
 cube.CanCollide = false
 cube.Parent = game.Workspace
 
-function PerformParry()
-    print("Parrying...")
-    ReplicatedStorage.Remotes.ParryButtonPress:Fire()
-    print("Parry attempted")
-end
-
 game:GetService("Workspace").Balls.ChildAdded:Connect(function(child)
     local trackTask = task.spawn(function()
         local ball = child
@@ -26,11 +20,13 @@ game:GetService("Workspace").Balls.ChildAdded:Connect(function(child)
                 if distance > getgenv().ScriptConfig.LongDistanceParry then
                     -- Long-distance parry logic
                     print("Long-distance Parrying...")
-                    PerformParry()
+                    ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+                    print("Parry attempted")
                 elseif distance > getgenv().ScriptConfig.ShortDistanceParry then
                     -- Short-distance parry logic
                     print("Short-distance Parrying...")
-                    PerformParry()
+                    ReplicatedStorage.Remotes.ParryButtonPress:Fire()
+                    print("Parry attempted")
                 end
 
                 -- Create the visual cube at the ball's position for 1 second
