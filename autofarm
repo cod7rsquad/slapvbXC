@@ -1,14 +1,6 @@
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local cube = Instance.new("Part")
-cube.Anchored = true
-cube.Size = Vector3.new(5, 5, 5) -- Adjust the size of the cube as needed
-cube.BrickColor = BrickColor.new("Bright red")
-cube.Transparency = 0.5 -- Adjust the transparency as needed
-cube.CanCollide = false
-cube.Parent = game.Workspace
-
 game:GetService("Workspace").Balls.ChildAdded:Connect(function(child)
     local trackTask = task.spawn(function()
         local ball = child
@@ -29,10 +21,20 @@ game:GetService("Workspace").Balls.ChildAdded:Connect(function(child)
                     print("Parry attempted")
                 end
 
+                -- Wait for the ball to be destroyed
+                ball.AncestryChanged:Wait()
+
                 -- Create the visual cube at the ball's position for 1 second
+                local cube = Instance.new("Part")
+                cube.Anchored = true
+                cube.Size = Vector3.new(5, 5, 5) -- Adjust the size of the cube as needed
+                cube.BrickColor = BrickColor.new("Bright red")
+                cube.Transparency = 0.5 -- Adjust the transparency as needed
+                cube.CanCollide = false
                 cube.Position = ball.Position
+                cube.Parent = game.Workspace
                 wait(1)
-                cube.Position = Vector3.new(0, 0, 0) -- Move the cube away
+                cube:Destroy() -- Destroy the cube after 1 second
             end
         end
     end)
